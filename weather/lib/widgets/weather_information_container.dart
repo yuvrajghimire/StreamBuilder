@@ -5,10 +5,11 @@ import 'package:weather/constants/constants.dart';
 
 class WeatherInformationContainer extends StatelessWidget {
   final dynamic weather;
-  const WeatherInformationContainer({Key? key, required this.weather})
+  WeatherInformationContainer({Key? key, required this.weather})
       : super(key: key);
 
   final Color textColor = Colors.white;
+  final currentTime = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -76,29 +77,33 @@ class WeatherInformationContainer extends StatelessWidget {
               itemCount: weather.forecast.forecastday[0].hour.length,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    Text(
-                      '${weather.forecast.forecastday[0].hour[index].time.substring(11)}',
-                      style: TextStyle(color: textColor),
-                    ),
-                    Image.network(
-                        'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}'),
-                    Text(
-                        '${weather.forecast.forecastday[0].hour[index].tempC}°',
-                        style: TextStyle(color: textColor, fontSize: 16)),
-                    const SizedBox(height: 5),
-                    Row(
-                      children: [
-                        const Icon(RpgAwesome.droplet,
-                            color: Colors.white, size: 18),
-                        Text(
-                            '${weather.forecast.forecastday[0].hour[index].humidity}%',
-                            style: TextStyle(color: textColor, fontSize: 14)),
-                      ],
-                    ),
-                  ],
-                );
+                return index >=
+                        int.parse(currentTime.toString().substring(11, 13))
+                    ? Column(
+                        children: [
+                          Text(
+                            '${weather.forecast.forecastday[0].hour[index].time.substring(11)}',
+                            style: TextStyle(color: textColor),
+                          ),
+                          Image.network(
+                              'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}'),
+                          Text(
+                              '${weather.forecast.forecastday[0].hour[index].tempC}°',
+                              style: TextStyle(color: textColor, fontSize: 16)),
+                          const SizedBox(height: 5),
+                          Row(
+                            children: [
+                              const Icon(RpgAwesome.droplet,
+                                  color: Colors.white, size: 18),
+                              Text(
+                                  '${weather.forecast.forecastday[0].hour[index].humidity}%',
+                                  style: TextStyle(
+                                      color: textColor, fontSize: 14)),
+                            ],
+                          ),
+                        ],
+                      )
+                    : const SizedBox();
               },
             ),
           ),

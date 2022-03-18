@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         _streamController.add(weather);
       }
     } catch (e) {
-      _streamController.add(null);
+      // _streamController.add(null);
       // print('$e');
     }
   }
@@ -94,10 +94,12 @@ class _HomePageState extends State<HomePage> {
               }
             } else if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(
-                child: CircularProgressIndicator(color: Colors.black),
+                child: CircularProgressIndicator(color: Colors.white),
               );
             }
-            return const Center(child: Text('No data'));
+            return const Center(
+                child: Text('Something went wrong',
+                    style: TextStyle(color: Colors.white)));
           },
         ),
       ),

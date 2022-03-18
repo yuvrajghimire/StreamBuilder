@@ -83,7 +83,7 @@ class DetailedInformation extends StatelessWidget {
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(width: 10),
                   Transform.rotate(
-                    angle: weather.current.windDegree.toDouble(),
+                    angle: weather.current.windDegree.toDouble() + 90,
                     child: const Icon(Icons.navigation,
                         color: Colors.white, size: 20),
                   )
