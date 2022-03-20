@@ -19,16 +19,17 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  late StreamController _streamController;
+  final StreamController _streamController = StreamController();
   late Stream _stream;
   Weather weather = Weather();
 
   @override
   void initState() {
     super.initState();
-    _streamController = StreamController();
     _stream = _streamController.stream;
-    getWeather();
+    Timer.periodic(const Duration(seconds: 3), (timer) {
+      getWeather();
+    });
   }
 
   getWeather() async {
@@ -58,7 +59,38 @@ class _MyAppState extends State<MyApp> {
               if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData) {
                   weather = snapshot.data as Weather;
-                  return Center(child: Text(weather.current!.tempC.toString()));
+                  return ListView(
+                    children: [
+                      const Center(
+                          child: Text('Weather',
+                              style: TextStyle(
+                                  fontSize: 40, fontWeight: FontWeight.bold))),
+                      ListTile(
+                        leading: const Text('Location'),
+                        trailing: Text(
+                            '${weather.location!.name!}, ${weather.location!.country!}'),
+                      ),
+                      ListTile(
+                        leading: const Text('Weather'),
+                        trailing:
+                            Text(weather.current!.tempC.toString() + ' ℃'),
+                      ),
+                      ListTile(
+                        leading: const Text('Time'),
+                        trailing: Text(weather.location!.localtime.toString()),
+                      ),
+                      ListTile(
+                        leading: const Text('Condition'),
+                        trailing:
+                            Text(weather.current!.condition!.text.toString()),
+                      ),
+                      ListTile(
+                        leading: const Text('Feels Like'),
+                        trailing:
+                            Text(weather.current!.feelslikeC.toString() + ' ℃'),
+                      ),
+                    ],
+                  );
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text('${snapshot.error}'),
