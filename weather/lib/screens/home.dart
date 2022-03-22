@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
       }
     } catch (e) {
       _streamController.add(null);
-      print('$e');
+      // print('$e');
     }
   }
 
@@ -60,46 +60,45 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.grey.shade900,
-        body: Container(
-          margin: const EdgeInsets.only(top: 40),
-          child: StreamBuilder(
-            stream: _stream,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.active) {
-                if (snapshot.hasData) {
-                  weather = snapshot.data as Weather;
-                  return ListView(
-                    children: [
-                      const Center(
-                        child: Text(
-                          'Weather',
-                          style: TextStyle(
-                            fontSize: 40,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+        backgroundColor: const Color(0xff131314),
+        body: StreamBuilder(
+          stream: _stream,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                weather = snapshot.data as Weather;
+                return ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    const SizedBox(height: 40),
+                    const Center(
+                      child: Text(
+                        'Weather',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 40),
-                      WeatherInformationContainer(weather: weather),
-                      const SizedBox(height: 20),
-                      DetailedInformation(weather: weather),
-                    ],
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text('${snapshot.error}'),
-                  );
-                }
-              } else if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(color: Colors.black),
+                    ),
+                    const SizedBox(height: 40),
+                    WeatherInformationContainer(weather: weather),
+                    const SizedBox(height: 20),
+                    DetailedInformation(weather: weather),
+                  ],
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text('${snapshot.error}'),
                 );
               }
-              return const Center(child: Text('No data'));
-            },
-          ),
+            } else if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
+                child: CircularProgressIndicator(color: Colors.black),
+              );
+            }
+            return const Center(child: Text('No data'));
+          },
         ),
       ),
     );

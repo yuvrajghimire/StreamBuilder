@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:intl/intl.dart';
+import 'package:weather/constants/constants.dart';
 
 class WeatherInformationContainer extends StatelessWidget {
   final dynamic weather;
@@ -14,10 +16,11 @@ class WeatherInformationContainer extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 10),
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(
-            Radius.circular(15),
-          ),
-          color: Color(0xff333335)),
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+        color: containerColor,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -32,7 +35,12 @@ class WeatherInformationContainer extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.surfing, color: textColor),
+                  SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: Image.network(
+                        'https://${weather.current.condition.icon.substring(2)}'),
+                  ),
                   const SizedBox(
                     width: 10,
                   ),
@@ -58,7 +66,42 @@ class WeatherInformationContainer extends StatelessWidget {
                 ],
               )
             ],
-          )
+          ),
+          const SizedBox(height: 30),
+          SizedBox(
+            height: 150.0,
+            child: ListView.builder(
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount: weather.forecast.forecastday[0].hour.length,
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    Text(
+                      '${weather.forecast.forecastday[0].hour[index].time.substring(11)}',
+                      style: TextStyle(color: textColor),
+                    ),
+                    Image.network(
+                        'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}'),
+                    Text(
+                        '${weather.forecast.forecastday[0].hour[index].tempC}°',
+                        style: TextStyle(color: textColor, fontSize: 16)),
+                    const SizedBox(height: 5),
+                    Row(
+                      children: [
+                        const Icon(RpgAwesome.droplet,
+                            color: Colors.white, size: 18),
+                        Text(
+                            '${weather.forecast.forecastday[0].hour[index].humidity}%',
+                            style: TextStyle(color: textColor, fontSize: 14)),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
