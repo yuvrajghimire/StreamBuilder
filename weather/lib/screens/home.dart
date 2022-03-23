@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:weather/models/model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:weather/widgets/air_quality.dart';
 import 'package:weather/widgets/detailed_information.dart';
+import 'package:weather/widgets/forecast.dart';
 import 'package:weather/widgets/weather_information_container.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final StreamController _streamController = StreamController();
   late Stream _stream;
   Weather weather = Weather();
-  String place = 'Kathmandu';
+  String place = 'Lalitpur';
 
   @override
   void initState() {
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         "Accept": "application/json"
       };
       Uri uri = Uri.parse(
-          'http://api.weatherapi.com/v1/forecast.json?key=1f4481ebdd004ab8aa233627222003&q=Kathmandu&days=1&aqi=no&alerts=no');
+          'http://api.weatherapi.com/v1/forecast.json?key=1f4481ebdd004ab8aa233627222003&q=$place&days=7&aqi=yes&alerts=no');
       var response = await http.get(uri, headers: userHeader);
       if (response.statusCode == 200) {
         var data = await json.decode(response.body);
@@ -45,8 +48,14 @@ class _HomePageState extends State<HomePage> {
         _streamController.add(weather);
       }
     } catch (e) {
-      // _streamController.add(null);
-      // print('$e');
+      Fluttertoast.showToast(
+          msg: "Some error occured",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.white,
+          textColor: Colors.black,
+          fontSize: 16.0);
     }
   }
 
@@ -84,7 +93,11 @@ class _HomePageState extends State<HomePage> {
                     const SizedBox(height: 40),
                     WeatherInformationContainer(weather: weather),
                     const SizedBox(height: 20),
+                    ForecastWeather(weather: weather),
+                    const SizedBox(height: 20),
                     DetailedInformation(weather: weather),
+                    const SizedBox(height: 20),
+                    AirQualityContainer(weather: weather)
                   ],
                 );
               } else if (snapshot.hasError) {

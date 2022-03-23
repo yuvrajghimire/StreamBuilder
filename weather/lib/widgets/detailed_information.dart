@@ -13,7 +13,7 @@ class DetailedInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.fromLTRB(10, 0, 10, 0),
       padding: const EdgeInsets.all(15),
       decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(
@@ -22,6 +22,15 @@ class DetailedInformation extends StatelessWidget {
           color: containerColor),
       child: Column(
         children: [
+          const Text(
+            'Details',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -79,7 +88,8 @@ class DetailedInformation extends StatelessWidget {
               ),
               Row(
                 children: [
-                  Text('${weather.current.windKph} km/h',
+                  Text(
+                      '${weather.current.windKph} km/h  ${weather.current.windDir}',
                       style: const TextStyle(color: Colors.white)),
                   const SizedBox(width: 10),
                   Transform.rotate(

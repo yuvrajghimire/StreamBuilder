@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/constants/constants.dart';
+import 'package:weather/tools/check_day_or_night.dart';
 
 class WeatherInformationContainer extends StatelessWidget {
   final dynamic weather;
@@ -25,11 +26,17 @@ class WeatherInformationContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${weather.location!.name!}, ${weather.location!.country!}',
-              style: TextStyle(color: textColor, fontSize: 18)),
+          Text(
+            '${weather.location!.name!}, ${weather.location!.country!}',
+            style: TextStyle(color: textColor, fontSize: 18),
+          ),
           const SizedBox(height: 5),
-          Text(DateFormat.yMMMd().format(DateTime.now()),
-              style: TextStyle(color: Colors.grey.shade400)),
+          Text(
+            DateFormat.yMMMd().format(
+              DateTime.now(),
+            ),
+            style: TextStyle(color: Colors.grey.shade400),
+          ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,30 +52,44 @@ class WeatherInformationContainer extends StatelessWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(weather.current!.tempC.toString() + '°',
-                      style: TextStyle(color: textColor, fontSize: 40)),
+                  Text(
+                    weather.current!.tempC.toString() + '°',
+                    style: TextStyle(color: textColor, fontSize: 40),
+                  ),
                 ],
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(weather.current!.condition!.text.toString(),
-                      style: TextStyle(color: Colors.grey.shade400)),
+                  Text(
+                    weather.current!.condition!.text.toString(),
+                    style: TextStyle(color: Colors.grey.shade400),
+                  ),
                   const SizedBox(height: 5),
                   Text(
                       '${weather.forecast!.forecastday[0]!.day.maxtempC}° / ${weather.forecast!.forecastday[0]!.day.mintempC}°',
                       style: TextStyle(color: Colors.grey.shade400)),
                   const SizedBox(height: 5),
                   Text(
-                      'Feels like ' +
-                          weather.current!.feelslikeC.toString() +
-                          ' ℃',
-                      style: TextStyle(color: Colors.grey.shade400)),
+                    'Feels like ' +
+                        weather.current!.feelslikeC.toString() +
+                        ' ℃',
+                    style: TextStyle(color: Colors.grey.shade400),
+                  ),
                 ],
               )
             ],
           ),
-          const SizedBox(height: 30),
+          const SizedBox(height: 10),
+          const Center(
+            child: Text('Today',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                )),
+          ),
+          const SizedBox(height: 15),
           SizedBox(
             height: 150.0,
             child: ListView.builder(
@@ -85,20 +106,38 @@ class WeatherInformationContainer extends StatelessWidget {
                             '${weather.forecast.forecastday[0].hour[index].time.substring(11)}',
                             style: TextStyle(color: textColor),
                           ),
-                          Image.network(
-                              'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}'),
+                          SizedBox(
+                            width: 70,
+                            height: 70,
+                            child: checkDayOrNight(weather
+                                        .forecast
+                                        .forecastday[0]
+                                        .hour[index]
+                                        .condition
+                                        .icon) ==
+                                    0
+                                ? Image.asset('assets/images/night.png',
+                                    fit: BoxFit.cover)
+                                : Image.asset('assets/images/day.png',
+                                    fit: BoxFit.cover),
+                          ),
                           Text(
-                              '${weather.forecast.forecastday[0].hour[index].tempC}°',
-                              style: TextStyle(color: textColor, fontSize: 16)),
+                            '${weather.forecast.forecastday[0].hour[index].tempC}°',
+                            style: TextStyle(
+                                color: textColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
+                          ),
                           const SizedBox(height: 5),
                           Row(
                             children: [
                               const Icon(RpgAwesome.droplet,
                                   color: Colors.white, size: 18),
                               Text(
-                                  '${weather.forecast.forecastday[0].hour[index].humidity}%',
-                                  style: TextStyle(
-                                      color: textColor, fontSize: 14)),
+                                '${weather.forecast.forecastday[0].hour[index].humidity}%',
+                                style:
+                                    TextStyle(color: textColor, fontSize: 14),
+                              ),
                             ],
                           ),
                         ],
