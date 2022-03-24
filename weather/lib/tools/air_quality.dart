@@ -40,7 +40,7 @@ airQualityMessage(str) {
   } else if (str == 'Unhealthy for Sensitive Groups') {
     return 'Members of sensitive groups may experience health effects. The general public is not likely to be affected.';
   } else if (str == 'Unhealthy') {
-    return ' 	Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
+    return 'Everyone may begin to experience health effects; members of sensitive groups may experience more serious health effects';
   } else if (str == 'Very Unhealthy') {
     return 'Health warnings of emergency conditions. The entire population is more likely to be affected.';
   } else if (str == 'Hazardous') {

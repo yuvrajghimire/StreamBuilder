@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           msg: "Some error occured",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 5,
           backgroundColor: Colors.white,
           textColor: Colors.black,
           fontSize: 16.0);
