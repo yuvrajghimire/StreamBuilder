@@ -1,5 +1,5 @@
 weekDay(index) {
-  if (index == 0) {
+  if (index == 7) {
     return 'Sunday';
   } else if (index == 1) {
     return 'Monday';
