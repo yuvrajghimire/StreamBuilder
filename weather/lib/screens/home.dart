@@ -91,12 +91,16 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 40),
+                    // first container
                     WeatherInformationContainer(weather: weather),
                     const SizedBox(height: 20),
+                    // second container
                     ForecastWeather(weather: weather),
                     const SizedBox(height: 20),
+                    // third container
                     DetailedInformation(weather: weather),
                     const SizedBox(height: 20),
+                    // fourth container
                     AirQualityContainer(weather: weather)
                   ],
                 );

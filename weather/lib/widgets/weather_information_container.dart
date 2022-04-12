@@ -32,7 +32,7 @@ class WeatherInformationContainer extends StatelessWidget {
           ),
           const SizedBox(height: 5),
           Text(
-            DateFormat.yMMMd().format(
+            DateFormat.yMMMMEEEEd().format(
               DateTime.now(),
             ),
             style: TextStyle(color: Colors.grey.shade400),
@@ -98,6 +98,8 @@ class WeatherInformationContainer extends StatelessWidget {
               itemCount: weather.forecast.forecastday[0].hour.length,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
+                print(weather.forecast.forecastday[0].hour[index].condition.icon
+                    .substring(2));
                 return index >=
                         int.parse(currentTime.toString().substring(11, 13))
                     ? Column(
@@ -106,20 +108,15 @@ class WeatherInformationContainer extends StatelessWidget {
                             '${weather.forecast.forecastday[0].hour[index].time.substring(11)}',
                             style: TextStyle(color: textColor),
                           ),
+                          // removed the locally saved icons for today forcast and used the original url from the api
                           SizedBox(
                             width: 70,
                             height: 70,
-                            child: checkDayOrNight(weather
-                                        .forecast
-                                        .forecastday[0]
-                                        .hour[index]
-                                        .condition
-                                        .icon) ==
-                                    0
-                                ? Image.asset('assets/images/night.png',
-                                    fit: BoxFit.cover)
-                                : Image.asset('assets/images/day.png',
-                                    fit: BoxFit.cover),
+                            child: Image.network(
+                              'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}',
+                              // fit: BoxFit.contain,
+                              width: 50,
+                            ),
                           ),
                           Text(
                             '${weather.forecast.forecastday[0].hour[index].tempC}°',
