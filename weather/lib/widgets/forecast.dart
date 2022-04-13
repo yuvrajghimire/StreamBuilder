@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:weather/constants/constants.dart';
@@ -66,8 +67,9 @@ class ForecastWeather extends StatelessWidget {
                           child: SizedBox(
                             width: 50,
                             height: 50,
-                            child: Image.network(
-                                'https:${weather.forecast!.forecastday![index].day!.condition!.icon}',
+                            child: CachedNetworkImage(
+                                imageUrl:
+                                    'https:${weather.forecast!.forecastday![index].day!.condition!.icon}',
                                 fit: BoxFit.cover),
                           ),
                         )

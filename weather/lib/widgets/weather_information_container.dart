@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttericon/rpg_awesome_icons.dart';
 import 'package:intl/intl.dart';
 import 'package:weather/constants/constants.dart';
-import 'package:weather/tools/check_day_or_night.dart';
+// import 'package:weather/tools/check_day_or_night.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class WeatherInformationContainer extends StatelessWidget {
   final dynamic weather;
@@ -46,8 +47,9 @@ class WeatherInformationContainer extends StatelessWidget {
                   SizedBox(
                     width: 50,
                     height: 50,
-                    child: Image.network(
-                        'https://${weather.current.condition.icon.substring(2)}'),
+                    child: CachedNetworkImage(
+                        imageUrl:
+                            'https://${weather.current.condition.icon.substring(2)}'),
                   ),
                   const SizedBox(
                     width: 10,
@@ -98,8 +100,6 @@ class WeatherInformationContainer extends StatelessWidget {
               itemCount: weather.forecast.forecastday[0].hour.length,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (BuildContext context, int index) {
-                print(weather.forecast.forecastday[0].hour[index].condition.icon
-                    .substring(2));
                 return index >=
                         int.parse(currentTime.toString().substring(11, 13))
                     ? Column(
@@ -112,8 +112,9 @@ class WeatherInformationContainer extends StatelessWidget {
                           SizedBox(
                             width: 70,
                             height: 70,
-                            child: Image.network(
-                              'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}',
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  'https://${weather.forecast.forecastday[0].hour[index].condition.icon.substring(2)}',
                               // fit: BoxFit.contain,
                               width: 50,
                             ),
